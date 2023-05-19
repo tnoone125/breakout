@@ -141,7 +141,7 @@ def Sound(filename):
         :param filename: string providing the name of a sound file
     
     See the online documentation for more information."""
-    assert _is_sound_file(filename), `filename`+' is not a sound file'
+    assert (_is_sound_file(filename)), f'{filename} is not a sound file'
     absname = filename if os.path.isabs(filename) else str(os.path.join(SOUND_PATH, filename))
     return pygame.mixer.Sound(absname)
 
@@ -192,7 +192,7 @@ class SoundLibrary(object):
             **Precondition**:: filename is the name of a valid sound file.
         
         """
-        assert is_sound_file(filename), `filename`+' is not a sound file'
+        assert is_sound_file(filename), f'{filename} is not a sound file'
         self._data[key] = Sound(filename)
     
     def __delitem__(self, key):
@@ -229,7 +229,7 @@ class GPoint(object):
     
     @x.setter
     def x(self,value):
-        assert type(value) in [int, float], `value`+' is not a number'
+        assert type(value) in [int, float], f'{value}  is not a number'
         self._x = float(value)
     
     @property
@@ -241,7 +241,7 @@ class GPoint(object):
     
     @y.setter
     def y(self,value):
-        assert type(value) in [int, float], `value`+' is not a number'
+        assert (type(value) in [int, float]), f'{value} is not a number'
         self._y = float(value)
     
     # METHODS
@@ -298,7 +298,7 @@ class GPoint(object):
             :param other: tuple value to add
             **Precondition**: value has the same type as self.
         """
-        assert (type(other) == type(self)), "value %(value)s is not a of type %(type)s" % {'value': `other`, 'type':`type(self)`}
+        assert (type(other) == type(self)), f'value {other}s is not a of type {type(self)}'
         result = copy.copy(self)
         result.x += other.x
         result.y += other.y
@@ -312,7 +312,7 @@ class GPoint(object):
             :param other: the tail value for the new Vector
             **Precondition**: value is a Point object.
         """
-        assert (type(other) == type(self)), "value %(value)s is not a of type %(type)s" % {'value': `other`, 'type':`type(self)`}
+        assert (type(other) == type(self)), f'value {other}s is not a of type {type(self)}'
         result = copy.copy(self)
         result.x -= other.x
         result.y -= other.y
@@ -327,7 +327,7 @@ class GPoint(object):
             :param scalar: scalar to multiply by
             **Precondition**: value is an int or float.
         """
-        assert (type(scalar) in [int,float]), "value %s is not a number" % `scalar`
+        assert (type(scalar) in [int,float]), f'value {scalar} is not a number'
         result = copy.copy(self)
         result.x *= scalar
         result.y *= scalar
@@ -362,8 +362,8 @@ class GPoint(object):
             :param alpha: scalar to interpolate by
             **Precondition**: value is an int or float.
         """
-        assert (type(other) == type(self)), "value %(value)s is not a of type %(type)s" % {'value': `other`, 'type':`type(self)`}
-        assert (type(alpha) in [int,float]), "value %s is not a number" % `alpha`
+        assert (type(other) == type(self)), f'value {other}s is not a of type {type(self)}'
+        assert (type(alpha) in [int,float]), f'value {alpha} is not a number'
         return alpha*self+(1-alpha)*other
     
     def distanceTo(self, other):
@@ -393,7 +393,7 @@ class GObject(object):
     
     @x.setter
     def x(self,value):
-        assert type(value) in [int, float], `value`+' is not a number'
+        assert type(value) in [int, float], f'{value} is not a number'
         self._x = float(value)
         if self._cache_on:
             self._cache(CACHE_POS)
@@ -407,7 +407,7 @@ class GObject(object):
     
     @y.setter
     def y(self,value):
-        assert type(value) in [int, float], `value`+' is not a number'
+        assert type(value) in [int, float], f'{value} is not a number'
         self._y = float(value)  
         if self._cache_on:
             self._cache(CACHE_POS)
@@ -421,7 +421,7 @@ class GObject(object):
     
     @width.setter
     def width(self,value):
-        assert type(value) in [int, float], `value`+' is not a number'
+        assert type(value) in [int, float], f'{value} is not a number'
         self._width = float(value)
         if self._cache_on:
             self._cache(CACHE_SIZE)
@@ -435,7 +435,7 @@ class GObject(object):
     
     @height.setter
     def height(self,value):
-        assert type(value) in [int, float], `value`+' is not a number'
+        assert type(value) in [int, float], f'{value} is not a number'
         self._height = float(value)
         if self._cache_on:
             self._cache(CACHE_SIZE)
@@ -522,7 +522,7 @@ class GObject(object):
     
     @fillcolor.setter
     def fillcolor(self,value):
-        assert _is_color(value), `value`+' is not a valid color'
+        assert _is_color(value), f'{value} is not a valid color'
         if type(value) in [tuple, list] and len(value) == 3:
             value = list(value)+[1.0]
         elif type(value) in [colormodel.RGB]:
@@ -546,7 +546,7 @@ class GObject(object):
     
     @linecolor.setter
     def linecolor(self,value):
-        assert _is_color(value), `value`+' is not a valid color'
+        assert _is_color(value), f'{value} is not a valid color'
         if type(value) in [tuple, list] and len(value) == 3:
             value = list(value)+[1.0]
         elif type(value) in [colormodel.RGB]:
@@ -732,9 +732,9 @@ class GLine(GObject):
     
     @points.setter
     def points(self,value):
-        assert type(value) in [tuple,list], `value`+' is not a tuple or list'
-        assert len(value) % 2 == 0 and len(value) > 2, 'length '+`len(value)`+' is not the correct size'
-        assert reduce(_and, map(_is_num,value)), `value`+' is not a tuple of numbers'
+        assert type(value) in [tuple,list], f'{value} is not a tuple or list'
+        assert len(value) % 2 == 0 and len(value) > 2, f'{len(value)} is not the correct size'
+        assert reduce(_and, map(_is_num,value)), f'{value} is not a tuple of numbers'
         self._points = tuple(value)
         if self._cache_on:
             self._cache(CACHE_ALL)
@@ -835,9 +835,9 @@ class GTriangle(GLine):
     
     @points.setter
     def points(self,value):
-        assert type(value) in [tuple,list], `value`+' is not a tuple or list'
-        assert len(value) == 6, 'length '+`len(value)`+' does not have 6 elements'
-        assert reduce(lambda x, y: x and y, map(_is_num,value)), `value`+' is not a tuple of numbers'
+        assert type(value) in [tuple,list], f'{value} is not a tuple or list'
+        assert len(value) == 6, f'{len(value)} does not have 6 elements'
+        assert reduce(lambda x, y: x and y, map(_is_num,value)), f'{value} is not a tuple of numbers'
         self._points = tuple(value)
         if self._cache_on:
             self._cache(CACHE_ALL)
@@ -920,9 +920,9 @@ class GPolygon(GLine):
 
     @centroid.setter
     def centroid(self,value):
-        assert type(value) in [tuple,list], `value`+' is not a tuple or list'
-        assert len(value) == 2, `value`+' does not have 2 elements'
-        assert reduce(lambda x, y: x and y, map(_is_num,value)), `value`+' is not a list of numbers'
+        assert type(value) in [tuple,list], f'{value} is not a tuple or list'
+        assert len(value) == 2, f'{value} does not have 2 elements'
+        assert reduce(lambda x, y: x and y, map(_is_num,value)), f'{value} is not a list of numbers'
         self._centroid = tuple(value)
         self._cache()
         
@@ -1167,7 +1167,7 @@ class GImage(GRectangle):
 
     @source.setter
     def source(self,value):
-        assert value is None or _is_image_file(value), `value`+' is not an image file'
+        assert value is None or _is_image_file(value), f'{value} is not an image file'
         self._source = value
         self._cache()
         
@@ -1188,7 +1188,7 @@ class GImage(GRectangle):
         GRectangle.__init__(self,**keywords)
         if 'source' in keywords:
             value =  keywords['source']
-            assert value is None or _is_image_file(value), `value`+' is not an image file'
+            assert value is None or _is_image_file(value), f'{value} is not an image file'
             self._source = value
         else:
             self._source = None
@@ -1254,7 +1254,7 @@ class GLabel(GRectangle):
 
     @font_size.setter
     def font_size(self,value):
-        assert type(value) in (int,float), `value`+' is not a number'
+        assert type(value) in (int,float), f'{value} is not a number'
         self._label.font_size = value
         self._label.texture_update()
 
@@ -1267,7 +1267,7 @@ class GLabel(GRectangle):
 
     @font_name.setter
     def font_name(self,value):
-        assert _is_font_file(value), `value`+' is not a font name'
+        assert _is_font_file(value), f'{value} is not a font name'
         self._label.font_name = value
         self._label.texture_update()
 
@@ -1285,7 +1285,7 @@ class GLabel(GRectangle):
 
     @bold.setter
     def bold(self,value):
-        assert type(value) == bool, `value`+' is not a bool'
+        assert type(value) == bool, f'{value} is not a bool'
         self._label.bold = value
         self._label.texture_update()
 
@@ -1303,7 +1303,7 @@ class GLabel(GRectangle):
     
     @text.setter
     def text(self,value):
-        assert type(value) == str, `value`+' is not a string'
+        assert type(value) == str, f'{value} is not a string'
         self._label.text = value
         self._label.texture_update()
 
@@ -1321,7 +1321,7 @@ class GLabel(GRectangle):
     
     @halign.setter
     def halign(self,value):
-        assert value in ('left','right','center'), `value`+' is not a valid horizontal alignment'
+        assert value in ('left','right','center'), f'{value} is not a valid horizontal alignment'
         self._halign = value
         self._label.halign = value
         self._cache(CACHE_POS)
@@ -1340,7 +1340,7 @@ class GLabel(GRectangle):
     
     @valign.setter
     def valign(self,value):
-        assert value in ('top','middle','bottom'), `value`+' is not a valid vertical alignment'
+        assert value in ('top','middle','bottom'), f'{value} is not a valid vertical alignment'
         self._valign = value
         self._label.valign = value
         self._cache(CACHE_POS)
@@ -1579,10 +1579,10 @@ class GameApp(kivy.app.App):
         h = keywords['height'] if 'height' in keywords else 0.0
         f = keywords['fps']    if 'fps'    in keywords else 60.0
 
-        assert type(w) in [int, float], `w`+' is not a number'
-        assert type(h) in [int, float], `h`+' is not a number'
-        assert type(f) in [int, float], `f`+' is not a number'
-        assert f > 0.0, `f`+' is not positive'
+        assert type(w) in [int, float], f'{w} is not a number'
+        assert type(h) in [int, float], f'{h} is not a number'
+        assert type(f) in [int, float], f'{f} is not a number'
+        assert f > 0.0, f'{f} is not positive'
         self._wwidth = w
         self._wheight = h
         self._fps = f
